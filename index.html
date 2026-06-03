@@ -5,47 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ნინი & გიორგი - ქორწილის მოსაწვევი</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,400;0,700;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
         
         * { box-sizing: border-box; }
         body, html {
             margin: 0; padding: 0; min-height: 100%; width: 100%;
             font-family: 'Playfair Display', serif;
             color: #4a3b3c; overflow-x: hidden;
+            /* ფონის სურათის დაყენება */
+            background-image: url('wedding.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             background-color: #fcf8f8;
         }
+
+        /* ფონის გადაკვრა ტექსტის წაკითხვადობისთვის */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.45);
+            z-index: -1;
+        }
         
-        /* ⏰ პირველი გვერდი წამზომით */
+        /* ⏰ პირველი გვერდი */
         #welcome-screen {
             height: 100vh; width: 100vw; display: flex;
             align-items: center; justify-content: center;
             flex-direction: column;
-            background: linear-gradient(rgba(255, 242, 244, 0.88), rgba(255, 255, 255, 0.78)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover; background-position: center;
             position: fixed; z-index: 100; top: 0; left: 0;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            transition: opacity 0.8s ease;
             padding: 20px;
         }
         
-        .countdown-title { 
-            color: #5c4346; font-size: 24px; margin-bottom: 30px; 
-            font-style: italic; text-align: center;
-        }
-        
+        .countdown-title { color: #5c4346; font-size: 24px; margin-bottom: 30px; font-style: italic; text-align: center; }
         .countdown-container { display: flex; gap: 12px; margin-bottom: 50px; }
-        
         .countdown-box {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(183, 110, 121, 0.2);
             padding: 18px 14px; border-radius: 12px; min-width: 78px; text-align: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        
         .countdown-time { font-size: 28px; font-weight: bold; color: #b76e79; display: block; }
         .countdown-label { font-size: 11px; color: #7a5f62; }
 
-        /* მოსაწვევის გახსნის ღილაკი */
         .open-btn {
             padding: 16px 50px; font-size: 18px; cursor: pointer;
             background: linear-gradient(135deg, #c59b9d 0%, #b76e79 100%);
@@ -53,73 +58,44 @@
             box-shadow: 0 6px 20px rgba(183, 110, 121, 0.3);
             font-family: 'Playfair Display', serif; transition: all 0.3s;
         }
-        .open-btn:hover { transform: scale(1.03); box-shadow: 0 8px 25px rgba(183, 110, 121, 0.45); }
+        .open-btn:hover { transform: scale(1.03); }
         
         /* ✨ მთავარი გვერდი */
         #main-invite {
             display: none; min-height: 100vh; width: 100%;
-            background: linear-gradient(rgba(255, 245, 247, 0.8), rgba(255, 255, 255, 0.7)), 
-                        url('https://images.unsplash.com/photo-1546190255-451a91afc548?auto=format&fit=crop&w=1200&q=80');
-            background-size: cover; background-position: center; background-attachment: fixed;
             align-items: center; justify-content: flex-start; flex-direction: column;
             position: relative; padding: 60px 0;
         }
         
         .content-box, .hotel-box {
-            position: relative; z-index: 2; 
-            background: rgba(255, 255, 255, 0.9); 
+            background: rgba(255, 255, 255, 0.85); 
             padding: 45px 30px; border-radius: 24px; text-align: center;
             max-width: 440px; width: 90%; margin-bottom: 35px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.5); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
         
-        .hotel-img {
-            width: 100%; height: 230px; object-fit: cover;
-            border-radius: 16px; margin: 20px 0;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
-        }
+        .hotel-img { width: 100%; height: 230px; object-fit: cover; border-radius: 16px; margin: 20px 0; }
         
-        h1 { color: #443234; font-size: 36px; margin: 0 0 8px 0; font-weight: normal; }
-        h2 { color: #b76e79; font-size: 23px; margin: 0 0 15px 0; font-weight: normal; font-style: italic; }
-        h3 { color: #4a3b3c; font-size: 21px; margin: 10px 0; font-weight: 600; }
+        h1 { color: #443234; font-size: 36px; margin: 0 0 8px 0; }
         .subtitle { color: #6e5658; font-size: 17px; margin-bottom: 30px; font-style: italic; }
         
         .location-btn {
             display: inline-block; margin-top: 10px; padding: 13px 30px;
-            background: linear-gradient(135deg, #c59b9d 0%, #b76e79 100%);
-            border-radius: 25px; text-decoration: none;
+            background: #b76e79; border-radius: 25px; text-decoration: none;
             color: white; font-weight: bold; font-size: 14px;
         }
         
         .form-group { text-align: left; width: 100%; margin-bottom: 20px; }
-        label { display: block; margin-bottom: 6px; color: #6b5356; font-size: 14px; font-weight: bold; }
-        input { 
-            width: 100%; padding: 13px; border: 1px solid rgba(183, 110, 121, 0.2); 
-            border-radius: 10px; font-size: 15px; font-family: inherit; 
-        }
+        input { width: 100%; padding: 13px; border: 1px solid #ccc; border-radius: 10px; font-size: 15px; }
+        .submit-btn { width: 100%; padding: 14px; background: #b76e79; color: white; border: none; border-radius: 10px; font-size: 17px; cursor: pointer; }
         
-        .submit-btn { 
-            width: 100%; padding: 14px; 
-            background: linear-gradient(135deg, #c59b9d 0%, #b76e79 100%);
-            color: white; border: none; border-radius: 10px; font-size: 17px; font-weight: bold;
-            cursor: pointer; font-family: inherit;
-        }
-        
-        #thank-you { display: none; color: #4e8752; font-size: 20px; font-weight: bold; margin-top: 10px; }
-        .scroll-hint { color: #8a686c; font-size: 13px; margin-top: 25px; font-style: italic; }
-        
-        .particle { position: absolute; top: -20px; pointer-events: none; animation: fall linear forwards; z-index: 15; }
-        @keyframes fall { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.5; } 100% { transform: translateY(105vh) rotate(360deg); opacity: 0; } }
+        #thank-you { display: none; color: #4e8752; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="bg-music" loop><source src="music.mp3" type="audio/mpeg"></audio>
 
-    <!-- ⏰ პირველი გვერდი წამზომით -->
     <div id="welcome-screen">
         <div class="countdown-title">ქორწილამდე დარჩა:</div>
         <div class="countdown-container">
@@ -131,111 +107,63 @@
         <button class="open-btn" onclick="openInvite()">მოსაწვევის გახსნა 💌</button>
     </div>
 
-    <!-- ✨ მთავარი გვერდი -->
     <div id="main-invite">
-        
         <div class="content-box">
             <h1>ნინი & გიორგი</h1>
             <p class="subtitle">სიყვარულით გიწვევთ ჩვენს ქორწილში</p>
-
             <form id="rsvp-form">
                 <div class="form-group">
-                    <label for="guest-name">სახელი და გვარი:</label>
-                    <input type="text" id="guest-name" placeholder="მაგ: დათო ბერიძე" required>
+                    <input type="text" id="guest-name" placeholder="სახელი და გვარი" required>
                 </div>
                 <button type="submit" class="submit-btn" id="btn-text">დასტური</button>
             </form>
-            <div id="thank-you">გელოდებით! მონაცემები გაგზავნილია. 🎉</div>
-            <div class="scroll-hint">ჩამოსქროლეთ დეტალებისთვის ↓</div>
+            <div id="thank-you">გელოდებით! 🎉</div>
         </div>
         
         <div class="hotel-box">
             <h2>ქორწილის სივრცე</h2>
             <h3>In Gemi</h3> 
             <img src="photo.jpg" alt="სასტუმროს ფოტო" class="hotel-img">
-            
-            <a href="https://maps.app.goo.gl/docoxZVsPzkmw7dz8" target="_blank" class="location-btn">
-                📍 იხილეთ ლოკაცია რუკაზე
-            </a>
+            <a href="https://maps.app.goo.gl/docoxZVsPzkmw7dz8" target="_blank" class="location-btn">📍 ლოკაცია რუკაზე</a>
         </div>
     </div>
 
     <script>
-        // ზუსტი დროის პარსინგი შეცდომების გარეშე
         var weddingDate = new Date(2026, 6, 25, 15, 0, 0).getTime();
-
         function updateCountdown() {
             var now = new Date().getTime();
             var distance = weddingDate - now;
-
-            if (distance < 0) {
-                var titleNode = document.querySelector(".countdown-title");
-                if(titleNode) titleNode.innerText = "დღეს ჩვენი ქორწილია! 🎉";
-                return;
-            }
-
             var days = Math.floor(distance / (1000 * 60 * 60 * 24));
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
             document.getElementById("days").innerText = days < 10 ? "0" + days : days;
             document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
             document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
         }
-        
         setInterval(updateCountdown, 1000);
         updateCountdown();
 
         function openInvite() {
-            var welcome = document.getElementById('welcome-screen');
-            welcome.style.opacity = '0';
+            document.getElementById('welcome-screen').style.opacity = '0';
             setTimeout(function() {
-                welcome.style.display = 'none';
+                document.getElementById('welcome-screen').style.display = 'none';
                 document.getElementById('main-invite').style.display = 'flex';
                 document.getElementById('bg-music').play().catch(function(e){});
-                setInterval(createParticle, 400);
             }, 800);
-        }
-
-        function createParticle() {
-            var container = document.getElementById('main-invite');
-            if (!container || container.style.display !== 'flex') return;
-            var particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            var items = ['🌸', '✨', '🤍'];
-            var randomItem = items[Math.floor(Math.random() * items.length)];
-            particle.innerText = randomItem;
-            particle.style.fontSize = Math.random() * 10 + 10 + 'px';
-            particle.style.left = Math.random() * 100 + 'vw';
-            var duration = Math.random() * 3 + 5;
-            particle.style.animationDuration = duration + 's';
-            container.appendChild(particle);
-            setTimeout(function() { particle.remove(); }, duration * 1000);
         }
 
         document.getElementById('rsvp-form').addEventListener('submit', function(e) {
             e.preventDefault();
             var btn = document.getElementById('btn-text');
             btn.innerText = "იგზავნება...";
-            btn.disabled = true;
-
-            var name = document.getElementById('guest-name').value;
-            var webAppUrl = "https://script.google.com/macros/s/AKfycbwh5NGqdaeZoVeaXeTjgzJYSAs34fIO_-DUwkQ5OuDmwEQFx_naSQVYMWQwuWMt0vkJrw/exec"; 
-
-            fetch(webAppUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: name, guests: 1 }) 
+            fetch("https://script.google.com/macros/s/AKfycbwh5NGqdaeZoVeaXeTjgzJYSAs34fIO_-DUwkQ5OuDmwEQFx_naSQVYMWQwuWMt0vkJrw/exec", {
+                method: 'POST', mode: 'no-cors',
+                body: JSON.stringify({ name: document.getElementById('guest-name').value }) 
             }).then(function() {
                 document.getElementById('rsvp-form').style.display = 'none';
                 document.getElementById('thank-you').style.display = 'block';
-            }).catch(function(error) {
-                btn.innerText = "სცადეთ თავიდან";
-                btn.disabled = false;
             });
         });
     </script>
