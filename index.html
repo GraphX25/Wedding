@@ -19,13 +19,27 @@
             background-color: #f7f2ed; position: fixed; z-index: 100;
             transition: opacity 1s ease;
         }
+        
+        /* მთავარი ღილაკის პულსაციის ანიმაცია */
         .open-btn {
             padding: 15px 40px; font-size: 20px; cursor: pointer;
             background: #d4af37; color: white; border: none;
-            border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            font-family: 'Playfair Display', serif; transition: transform 0.3s;
+            border-radius: 30px; box-shadow: 0 4px 15px rgba(212,175,55,0.4);
+            font-family: 'Playfair Display', serif; 
+            transition: all 0.3s;
+            animation: pulse 2s infinite ease-in-out;
         }
-        .open-btn:hover { transform: scale(1.05); }
+        .open-btn:hover { 
+            transform: scale(1.08); 
+            background: #bfa030;
+            box-shadow: 0 6px 20px rgba(212,175,55,0.6);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(212,175,55,0.4); }
+            50% { transform: scale(1.04); box-shadow: 0 6px 25px rgba(212,175,55,0.7); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(212,175,55,0.4); }
+        }
         
         #main-invite {
             display: none; min-height: 100vh; width: 100%;
@@ -33,6 +47,7 @@
             background-size: cover; background-position: center; background-attachment: fixed;
             align-items: center; justify-content: center; flex-direction: column;
             position: relative; animation: fadeIn 2s ease; padding: 20px 0;
+            overflow: hidden;
         }
         
         .overlay {
@@ -43,17 +58,17 @@
         /* გამჭვირვალე მინის ეფექტი */
         .content-box {
             position: relative; z-index: 2; 
-            background: rgba(255, 255, 255, 0.25); 
+            background: rgba(255, 255, 255, 0.22); 
             padding: 40px 30px; border-radius: 20px; text-align: center;
             max-width: 450px; width: 90%; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(3px); 
-            -webkit-backdrop-filter: blur(3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+            backdrop-filter: blur(4px); 
+            -webkit-backdrop-filter: blur(4px);
             border: 1px solid rgba(255, 255, 255, 0.4); 
-            animation: slideUp 1.5s ease;
+            animation: slideUp 1.8s cubic-bezier(0.1, 0.8, 0.3, 1);
         }
         
-        h1 { color: #ffffff; font-size: 34px; margin-bottom: 5px; margin-top: 0; text-shadow: 1px 1px 4px rgba(0,0,0,0.6); }
+        h1 { color: #ffffff; font-size: 36px; margin-bottom: 5px; margin-top: 0; text-shadow: 1px 1px 5px rgba(0,0,0,0.6); }
         .subtitle { color: #eeeeee; font-size: 19px; margin-bottom: 25px; font-style: italic; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
         
         .location {
@@ -62,7 +77,7 @@
             color: #333; font-weight: bold; transition: 0.3s; font-size: 15px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        .location:hover { background: #d4af37; color: white; }
+        .location:hover { background: #d4af37; color: white; transform: translateY(-2px); }
         .form-group { text-align: left; width: 100%; margin-bottom: 15px; }
         
         label { display: block; margin-bottom: 6px; color: #ffffff; font-size: 15px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
@@ -73,20 +88,44 @@
             border-radius: 8px; font-size: 16px; font-family: inherit; 
             background-color: rgba(255, 255, 255, 0.85);
             color: #222;
+            transition: all 0.3s;
         }
-        input:focus { background-color: #ffffff; outline: none; border-color: #d4af37; }
+        input:focus { background-color: #ffffff; outline: none; border-color: #d4af37; box-shadow: 0 0 10px rgba(212,175,55,0.5); }
         
         .submit-btn { 
             width: 100%; padding: 15px; background: #d4af37; color: white; 
             border: none; border-radius: 8px; font-size: 18px; font-weight: bold;
-            cursor: pointer; transition: background 0.3s; font-family: inherit; margin-top: 10px;
+            cursor: pointer; transition: all 0.3s; font-family: inherit; margin-top: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .submit-btn:hover { background: #bfa030; }
+        .submit-btn:hover { background: #bfa030; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
         
         #thank-you { display: none; color: #2ecc71; font-size: 22px; margin-top: 15px; font-weight: bold; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        
+        /* მოფარფატე ნაწილაკების სტილები */
+        .particle {
+            position: absolute;
+            top: -20px;
+            pointer-events: none;
+            animation: fall linear forwards;
+            z-index: 15;
+            user-select: none;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg) translateX(0);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(105vh) rotate(360deg) translateX(50px);
+                opacity: 0;
+            }
+        }
+        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(60px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -131,7 +170,43 @@
                 document.getElementById('welcome-screen').style.display = 'none';
                 document.getElementById('main-invite').style.display = 'flex';
                 document.getElementById('bg-music').play().catch(function(e){});
+                
+                // ნაწილაკების გენერირების დაწყება (ყოველ 300 მილიწამში)
+                setInterval(createParticle, 300);
             }, 1000);
+        }
+
+        function createParticle() {
+            const container = document.getElementById('main-invite');
+            if (!container || container.style.display !== 'flex') return;
+            
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // ელემენტების მიქსი: ნაპერწკლები, ყვავილები, გულები და ოქროსფერი წერტილები
+            const items = ['✨', '🌸', '🤍', '✨', '•'];
+            const randomItem = items[Math.floor(Math.random() * items.length)];
+            particle.innerText = randomItem;
+            
+            if(randomItem === '•') {
+                particle.style.color = '#d4af37';
+                particle.style.fontSize = '24px';
+            } else {
+                particle.style.fontSize = Math.random() * 12 + 10 + 'px'; 
+            }
+            
+            particle.style.left = Math.random() * 100 + 'vw';
+            
+            // ნელი, ჰაეროვანი ვარდნის სიჩქარე (6-დან 11 წამამდე)
+            const duration = Math.random() * 5 + 6; 
+            particle.style.animationDuration = duration + 's';
+            
+            container.appendChild(particle);
+            
+            // წავშალოთ ეკრანიდან, როგორც კი ბოლოში ჩავა
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
         }
 
         document.getElementById('rsvp-form').addEventListener('submit', function(e) {
