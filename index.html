@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ნინი & გიორგი - ქორწილის მოსაწვევი</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            margin: 0; padding: 0; height: 100%; width: 100%;
+            font-family: 'Playfair Display', serif;
+            overflow-x: hidden; background-color: #111;
+        }
+
+        #welcome-screen {
+            height: 100vh; width: 100vw; display: flex;
+            align-items: center; justify-content: center;
+            background-color: #f7f2ed; position: fixed; z-index: 100;
+            transition: opacity 1s ease;
+        }
+
+        .open-btn {
+            padding: 15px 40px; font-size: 20px; cursor: pointer;
+            background: #d4af37; color: white; border: none;
+            border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: 'Playfair Display', serif; transition: transform 0.3s;
+        }
+        .open-btn:hover { transform: scale(1.05); }
+
+        #main-invite {
+            display: none; min-height: 100vh; width: 100%;
+            background-image: url('photo.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            align-items: center; justify-content: center; flex-direction: column;
+            position: relative; animation: fadeIn 2s ease;
+            padding: 20px 0;
+        }
+
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); z-index: 1;
+        }
+
+        .content-box {
+            position: relative; z-index: 2; background: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px; border-radius: 15px; text-align: center;
+            max-width: 450px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px); animation: slideUp 1.5s ease;
+        }
+
+        h1 { color: #333; font-size: 32px; margin-bottom: 5px; margin-top: 0; }
+        .subtitle { color: #666; font-size: 18px; margin-bottom: 25px; font-style: italic; }
+        
+        .location {
+            display: inline-block; margin-bottom: 25px; padding: 12px 25px;
+            background: #f1f1f1; border-radius: 25px; text-decoration: none;
+            color: #333; font-weight: bold; transition: 0.3s;
+            font-size: 15px;
+        }
+        .location:hover { background: #d4af37; color: white; }
+
+        .form-group {
+            text-align: left;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%; padding: 12px; border: 1px solid #ccc;
+            border-radius: 8px; font-size: 16px; font-family: inherit;
+            background-color: #fff;
+        }
+        
+        .submit-btn {
+            width: 100%; padding: 15px; background: #333; color: white;
+            border: none; border-radius: 8px; font-size: 18px;
+            cursor: pointer; transition: background 0.3s; font-family: inherit;
+            margin-top: 10px;
+        }
+        .submit-btn:hover { background: #d4af37; }
+
+        #thank-you { display: none; color: #27ae60; font-size: 20px; margin-top: 15px; font-weight: bold; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="welcome-screen">
+        <button class="open-btn" onclick="openInvite()">მოსაწვევის გახსნა 💌</button>
+    </div>
+
+    <div id="main-invite">
+        <div class="overlay"></div>
+        <div class="content-box">
+            <h1>ნინი & გიორგი</h1>
+            <p class="subtitle">სიყვარულით გიწვევთ ჩვენს ქორწილში</p>
+            
+            <a href="https://maps.app.goo.gl/docoxZVsPzkmw7dz8" target="_blank" class="location">
+                📍 ლოკაცია: In Gemi
+            </a>
+
+            <form id="rsvp-form">
+                <div class="form-group">
+                    <label for="guest-name">სახელი და გვარი:</label>
+                    <input type="text" id="guest-name" placeholder="მაგ: დათო ბერიძე" required>
+                </div>
+                <div class="form-group">
+                    <label for="guest-count">სტუმრების რაოდენობა:</label>
+                    <input type="number" id="guest-count" placeholder="მაგ: 2" min="1" required>
+                </div>
+                <button type="submit" class="submit-btn" id="btn-text">დადასტურება</button>
+            </form>
+            <div id="thank-you">გელოდებით! მონაცემები გაგზავნილია. 🎉</div>
+        </div>
+    </div>
+
+    <script>
+        function openInvite() {
+            document.getElementById('welcome-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('welcome-screen').style.display = 'none';
+                document.getElementById('main-invite').style.display = 'flex';
+                document.getElementById('bg-music').play().catch(function(error) {
+                    console.log("Audio playback failed:", error);
+                });
+            }, 1000);
+        }
+
+        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let btn = document.getElementById('btn-text');
+            btn.innerText = "იგზავნება...";
+            btn.disabled = true;
+
+            // დემო რეჟიმი (მადლობის ეკრანი პირდაპირ გამოჩნდება)
+            setTimeout(() => {
+                document.getElementById('rsvp-form').style.display = 'none';
+                document.getElementById('thank-you').style.display = 'block';
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
