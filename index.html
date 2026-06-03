@@ -13,7 +13,6 @@
             margin: 0; padding: 0; min-height: 100%; width: 100%;
             font-family: 'Playfair Display', serif;
             color: #4a3b3c; overflow-x: hidden;
-            /* ფონის სურათის დაყენება - მაქსიმალური ხარისხისთვის */
             background-image: url('wedding.jpg');
             background-size: cover;
             background-position: center;
@@ -22,7 +21,6 @@
             background-color: #fcf8f8;
         }
 
-        /* ფონის გადაკვრა ტექსტის წაკითხვადობისთვის */
         body::before {
             content: "";
             position: fixed;
@@ -31,7 +29,6 @@
             z-index: -1;
         }
         
-        /* ⏰ პირველი გვერდი */
         #welcome-screen {
             height: 100vh; width: 100vw; display: flex;
             align-items: center; justify-content: center;
@@ -61,7 +58,6 @@
         }
         .open-btn:hover { transform: scale(1.03); }
         
-        /* ✨ მთავარი გვერდი */
         #main-invite {
             display: none; min-height: 100vh; width: 100%;
             align-items: center; justify-content: flex-start; flex-direction: column;
@@ -78,7 +74,8 @@
         .hotel-img { width: 100%; height: 230px; object-fit: cover; border-radius: 16px; margin: 20px 0; }
         
         h1 { color: #443234; font-size: 36px; margin: 0 0 8px 0; }
-        .subtitle { color: #6e5658; font-size: 17px; margin-bottom: 30px; font-style: italic; }
+        .subtitle { color: #6e5658; font-size: 17px; margin-bottom: 20px; font-style: italic; }
+        .date-text { color: #b76e79; font-size: 20px; font-weight: bold; margin-bottom: 20px; display: block; }
         
         .location-btn {
             display: inline-block; margin-top: 10px; padding: 13px 30px;
@@ -112,6 +109,9 @@
         <div class="content-box">
             <h1>ნინი & გიორგი</h1>
             <p class="subtitle">სიყვარულით გიწვევთ ჩვენს ქორწილში</p>
+            
+            <span class="date-text">25.07.2026</span>
+
             <form id="rsvp-form">
                 <div class="form-group">
                     <input type="text" id="guest-name" placeholder="სახელი და გვარი" required>
@@ -123,8 +123,7 @@
         
         <div class="hotel-box">
             <h2>ქორწილის სივრცე</h2>
-            <h3>In Gemi</h3> 
-            <img src="photo.jpg" alt="სასტუმროს ფოტო" class="hotel-img">
+            <h3>In Gremi</h3> <img src="photo.jpg" alt="სასტუმროს ფოტო" class="hotel-img">
             <a href="https://maps.app.goo.gl/docoxZVsPzkmw7dz8" target="_blank" class="location-btn">📍 ლოკაცია რუკაზე</a>
         </div>
     </div>
